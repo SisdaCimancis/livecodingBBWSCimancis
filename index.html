@@ -3,22 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Coding Rekrutmen Konsultan Individu BBWS Cimanuk Cisanggarung</title>
+    <title>REKRUTMENT AHLI IT PUPR CIMANUK</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .todo-container {
+            background: #fff;
+            padding: 20px;
+            width: 380px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        input {
+            flex: 1;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .add-btn {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f1f1f1;
+            padding: 8px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .actions button {
+            margin-left: 4px;
+        }
+
+        .done-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .edit-btn {
+            background-color: #ffc107;
+            color: black;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; margin-left: 30%; position: absolute; text-align: center; align-items: center; justify-content: center;">
-    <h1>Silahkan Buat aplikasi Todo List dengan fitur:</h1>
-    <h2>1.	Menampilkan daftar todo</h2>
-    <h2>2.	Menambah todo baru</h2>
-    <h2>3.	Menandai todo sebagai selesai</h2>
-    <h2>4.	Menghapus todo</h2>
-    <p>Gunakan HTML, CSS, dan JavaScript untuk membuat aplikasi sederhana ini. <br>
-        Pastikan aplikasi memiliki antarmuka yang user-friendly dan fungsionalitas yang sesuai dengan fitur yang diminta.</p>
-    <h1>Penilaian akan didasarkan pada:</h1>
-    <h3>1.	Kelengkapan fitur sesuai dengan yang diminta</h3>
-    <h3>2.	Kualitas kode (struktur, kebersihan, dan penggunaan best practices)</h3>
-    <h3>3.	Desain antarmuka pengguna</h3>
-    <h3>Front-End : HTML + CSS + JavaScript (Framework boleh, tapi tidak wajib)</h3>
-    <h3>Backend: Bebas (Node.js / PHP / Python) atau simulasi data di frontend (untuk FG)</h3>
-    <h1>Selamat Mengerjakan!</h1>
+<body>
+
+    <div class="todo-container">
+        <h2>DAFTAR PESERTA REKRUTMEN AHLI IT</h2>
+
+        <div class="input-group">
+            <input type="text" id="todoInput" placeholder="Masukkan Nama">
+            <button class="add-btn" onclick="addTodo()">Tambah</button>
+        </div>
+
+        <ul id="todoList"></ul>
+    </div>
+
+    <script>
+        const todoInput = document.getElementById("todoInput");
+        const todoList = document.getElementById("todoList");
+
+        function addTodo() {
+            const todoText = todoInput.value.trim();
+
+            if (todoText === "") {
+                alert("Nama tidak boleh kosong");
+                return;
+            }
+
+            const li = document.createElement("li");
+
+            const span = document.createElement("span");
+            span.textContent = todoText;
+
+            const actions = document.createElement("div");
+            actions.className = "actions";
+
+            const doneButton = document.createElement("button");
+            doneButton.textContent = "Selesai";
+            doneButton.className = "done-btn";
+            doneButton.onclick = () => {
+                li.classList.toggle("completed");
+            };
+
+            const editButton = document.createElement("button");
+            editButton.textContent = "Edit";
+            editButton.className = "edit-btn";
+            editButton.onclick = () => {
+                const newText = prompt("Edit todo:", span.textContent);
+                if (newText !== null && newText.trim() !== "") {
+                    span.textContent = newText.trim();
+                }
+            };
+
+            const deleteButton = document.createElement("button");
+            deleteButton.textContent = "Hapus";
+            deleteButton.className = "delete-btn";
+            deleteButton.onclick = () => {
+                todoList.removeChild(li);
+            };
+
+            actions.appendChild(doneButton);
+            actions.appendChild(editButton);
+            actions.appendChild(deleteButton);
+
+            li.appendChild(span);
+            li.appendChild(actions);
+
+            todoList.appendChild(li);
+            todoInput.value = "";
+        }
+    </script>
+
 </body>
 </html>
