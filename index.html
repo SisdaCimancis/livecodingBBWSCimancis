@@ -1,24 +1,128 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Coding Rekrutmen Konsultan Individu BBWS Cimanuk Cisanggarung</title>
+    <title>Internal Portal - BBWS Cimanuk Cisanggarung</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .todo-done { text-decoration: line-through; opacity: 0.5; }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+        }
+    </style>
 </head>
-<body style="font-family: Arial, sans-serif; margin-left: 30%; position: absolute; text-align: center; align-items: center; justify-content: center;">
-    <h1>Silahkan Buat aplikasi Todo List dengan fitur:</h1>
-    <h2>1.	Menampilkan daftar todo</h2>
-    <h2>2.	Menambah todo baru</h2>
-    <h2>3.	Menandai todo sebagai selesai</h2>
-    <h2>4.	Menghapus todo</h2>
-    <p>Gunakan HTML, CSS, dan JavaScript untuk membuat aplikasi sederhana ini. <br>
-        Pastikan aplikasi memiliki antarmuka yang user-friendly dan fungsionalitas yang sesuai dengan fitur yang diminta.</p>
-    <h1>Penilaian akan didasarkan pada:</h1>
-    <h3>1.	Kelengkapan fitur sesuai dengan yang diminta</h3>
-    <h3>2.	Kualitas kode (struktur, kebersihan, dan penggunaan best practices)</h3>
-    <h3>3.	Desain antarmuka pengguna</h3>
-    <h3>Front-End : HTML + CSS + JavaScript (Framework boleh, tapi tidak wajib)</h3>
-    <h3>Backend: Bebas (Node.js / PHP / Python) atau simulasi data di frontend (untuk FG)</h3>
-    <h1>Selamat Mengerjakan!</h1>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+    
+    <div class="absolute top-[-10%] left-[-5%] w-96 h-96 bg-blue-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
+    <div class="absolute bottom-[-10%] right-[-5%] w-96 h-96 bg-yellow-100 rounded-full mix-blend-multiply filter blur-3xl opacity-50"></div>
+
+    <div class="w-full max-w-2xl z-10">
+        <div class="flex items-center justify-between mb-8 px-4">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 bg-blue-900 rounded-xl flex items-center justify-center shadow-lg transform -rotate-6">
+                    <span class="text-white font-bold text-xl italic">C</span>
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold text-slate-800 leading-tight">BBWS CIMANCIS</h1>
+                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Internal Task Management</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <span id="date-now" class="text-xs font-bold text-slate-500 uppercase"></span>
+            </div>
+        </div>
+
+        <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 shadow-2xl">
+            <div class="mb-8">
+                <h2 class="text-2xl font-extrabold text-slate-800">Daftar Agenda</h2>
+                <p class="text-sm text-slate-500">Kelola tugas harian teknis Anda di sini.</p>
+            </div>
+
+            <div class="flex gap-3 mb-10">
+                <input type="text" id="task-input" 
+                    class="flex-1 px-6 py-4 bg-white border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-900 transition-all text-sm font-medium" 
+                    placeholder="Contoh: Monitoring Debit Bendungan...">
+                <button onclick="addTask()" 
+                    class="bg-blue-900 hover:bg-black text-white px-8 rounded-2xl font-extrabold text-xs shadow-lg transition-all active:scale-95">
+                    SIMPAN
+                </button>
+            </div>
+
+            <div id="task-list" class="space-y-4">
+                <div id="empty-state" class="text-center py-10">
+                    <p class="text-slate-400 italic text-xs">Belum ada agenda terdaftar.</p>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-center text-[10px] font-bold text-slate-400 mt-10 uppercase tracking-[0.2em]">
+            Ditjen Sumber Daya Air - Kementerian PUPR
+        </p>
+
+        <div class="mt-8 text-center">
+        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+            &copy; 2026 Lioandika - BBWS Cimanuk Cisanggarung
+        </p>
+        <p class="text-[9px] text-slate-300 font-medium uppercase mt-1 tracking-[0.2em]">
+            Internal Task Management System
+        </p>
+    </div>
+    </div>
+    
+
+    <script>
+       
+        document.getElementById('date-now').innerText = new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'long' });
+
+        const taskInput = document.getElementById('task-input');
+        const taskList = document.getElementById('task-list');
+        const emptyState = document.getElementById('empty-state');
+
+        function addTask() {
+            const val = taskInput.value.trim();
+            if(!val) return;
+
+            emptyState.style.display = 'none';
+
+            const item = document.createElement('div');
+            item.className = "flex items-center justify-between p-5 bg-white border border-slate-100 rounded-2xl group hover:shadow-md transition-all animate-in fade-in slide-in-from-bottom-2";
+            
+            item.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <input type="checkbox" onchange="completeTask(this)" 
+                        class="w-5 h-5 rounded-lg border-slate-300 text-blue-900 focus:ring-blue-900 cursor-pointer">
+                    <span class="text-sm font-semibold text-slate-700 transition-all">${val}</span>
+                </div>
+                <button onclick="deleteTask(this)" class="text-slate-300 hover:text-red-500 transition-colors p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                </button>
+            `;
+
+            taskList.prepend(item);
+            taskInput.value = "";
+        }
+
+        function completeTask(checkbox) {
+            const text = checkbox.nextElementSibling;
+            text.classList.toggle('todo-done');
+        }
+
+        function deleteTask(btn) {
+            if(confirm('Hapus agenda ini?')) {
+                btn.closest('div').remove();
+                if(taskList.children.length === 1) emptyState.style.display = 'block';
+            }
+        }
+
+    
+        taskInput.addEventListener("keypress", (e) => { if(e.key === "Enter") addTask(); });
+    </script>
 </body>
 </html>
