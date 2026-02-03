@@ -38,6 +38,11 @@
 
     const todolist =[];
     
+removeTodoList = function(index) {
+        todolist.splice(index, 1);
+        renderTodolist();
+    };
+
     function clearTodolistTable() {
         const todolistTable = document.getElementById("todolist");
         while (todolistTable.firstChild) {
